@@ -29,7 +29,7 @@
         }
 
         [TestMethod]
-        public void ReportsErrorWhenNotPlaced()
+        public void ReportsWarningWhenNotPlaced()
         {
             string output = null;
             ILogger logger = new CustomisableTextLogger(delegate(string message)
@@ -42,7 +42,7 @@
             var command = new ReportCommand();
             state = command.Execute(state, grid, logger);
 
-            Assert.IsTrue(output != null && output.StartsWith("Error:"));
+            Assert.IsTrue(output != null && output.StartsWith("Warning:"));
         }
     }
 }
