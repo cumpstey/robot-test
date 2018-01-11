@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{686B5BC4-8B62-4F60-81D7-1434A7F2959F}</ProjectGuid>
+    <ProjectGuid>{4A6B22AE-6CDE-4416-AAE1-F59148738B46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RobotTest.UI.Common.Tests</RootNamespace>
-    <AssemblyName>RobotTest.UI.Common.Tests</AssemblyName>
+    <RootNamespace>RobotTest.BusinessLogic.Tests</RootNamespace>
+    <AssemblyName>RobotTest.BusinessLogic.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,23 +50,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CommandParsing\IndividualCommandParsers.cs" />
-    <Compile Include="Commands\UnplaceCommand.cs" />
-    <Compile Include="TextCommandParserTests.cs" />
+    <Compile Include="PlaceCommandTests.cs" />
+    <Compile Include="ReportCommandTests.cs" />
+    <Compile Include="RotateCommandTests.cs" />
+    <Compile Include="MoveCommandTests.cs" />
+    <Compile Include="GridTests.cs" />
+    <Compile Include="RobotTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{b3b5e445-1df5-4152-b6fd-d3b9493542e2}</Project>
-      <Name>BusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\UI\Common\Common.csproj">
-      <Project>{62a7ce72-5b08-41a1-be4c-13ef7f883b9b}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utilities\Utilities.csproj">
-      <Project>{e958cc61-8657-477d-929b-9701ebb764b0}</Project>
-      <Name>Utilities</Name>
+    <ProjectReference Include="..\..\Logic\Logic.csproj">
+      <Project>{20f249d5-0f92-4712-989f-62ad73c57ad9}</Project>
+      <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

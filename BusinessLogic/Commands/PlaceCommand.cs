@@ -1,7 +1,7 @@
-﻿namespace RobotTest.BusinessLogic.Commands
-{
-    using Utilities.Logging;
+﻿using Microsoft.Extensions.Logging;
 
+namespace RobotTest.BusinessLogic.Commands
+{
     /// <summary>
     /// Class representing a command for the robot to be placed on the grid
     /// </summary>
@@ -30,14 +30,14 @@
 
         #region Methods
 
-        public override State? Execute(State? currentState, Grid grid, ILogger logger)
+        public override State? Execute(ILogger logger, State? currentState, Grid grid)
         {
             if (X >= 0 && X < grid.X && Y >= 0 && Y < grid.Y)
             {
                 return new State(Direction, new Coordinate(X, Y));
             }
 
-            logger.Log(LogLevel.Warning, "Placed outside the bounds of the grid. Ignoring command.");
+            logger.LogWarning("Placed outside the bounds of the grid. Ignoring command.");
             return currentState;
         }
 

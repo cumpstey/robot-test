@@ -1,9 +1,9 @@
-﻿namespace RobotTest.BusinessLogic
-{
-    using System;
-    using Commands;
-    using Utilities.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
+using RobotTest.BusinessLogic.Commands;
 
+namespace RobotTest.BusinessLogic
+{
     /// <summary>
     /// Class representing a robot, with a grid which it can be placed on,
     /// and with the ability to report messages and execute commands.
@@ -22,14 +22,9 @@
 
         #region Constructor
 
-        public Robot(ILogger logger, Grid grid)
+        public Robot(ILogger<Robot> logger, Grid grid)
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException("logger");
-            }
-
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _grid = grid;
         }
 
@@ -43,7 +38,7 @@
         /// <param name="command">Command to execute</param>
         public void ExecuteCommand(Command command)
         {
-            _state = command.Execute(_state, _grid, _logger);
+            _state = command.Execute(_logger, _state, _grid);
         }
 
         #endregion

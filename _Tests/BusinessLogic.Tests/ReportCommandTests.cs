@@ -1,9 +1,10 @@
-﻿using RobotTest.BusinessLogic.Commands;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace RobotTest.BusinessLogic.Tests
+﻿namespace RobotTest.BusinessLogic.Tests
 {
+    using System;
+    using BusinessLogic.Commands;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Utilities.Logging;
+
     [TestClass]
     public class ReportCommandTests
     {
@@ -19,10 +20,10 @@ namespace RobotTest.BusinessLogic.Tests
             State? state = null;
 
             Command command = new PlaceCommand(3, 3, MoveDirection.East);
-            state = command.Execute(logger, state, grid);
+            state = command.Execute(state, grid, logger);
 
             command = new ReportCommand();
-            state = command.Execute(logger, state, grid);
+            state = command.Execute(state, grid, logger);
 
             Assert.AreEqual("3,3,East", output);
         }
@@ -39,7 +40,7 @@ namespace RobotTest.BusinessLogic.Tests
             State? state = null;
 
             var command = new ReportCommand();
-            state = command.Execute(logger, state, grid);
+            state = command.Execute(state, grid, logger);
 
             Assert.IsTrue(output != null && output.StartsWith("Warning:"));
         }

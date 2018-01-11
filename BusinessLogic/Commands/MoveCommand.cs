@@ -1,8 +1,8 @@
-﻿namespace RobotTest.BusinessLogic.Commands
-{
-    using System;
-    using Utilities.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
 
+namespace RobotTest.BusinessLogic.Commands
+{
     /// <summary>
     /// Class representing a command for the robot to move
     /// </summary>
@@ -10,11 +10,11 @@
     {
         #region Methods
 
-        public override State? Execute(State? currentState, Grid grid, ILogger logger)
+        public override State? Execute(ILogger logger, State? currentState, Grid grid)
         {
             if (!currentState.HasValue)
             {
-                logger.Log(LogLevel.Warning, "Move command executed when robot not placed.");
+                logger.LogWarning("Move command executed when robot not placed.");
                 return currentState;
             }
 

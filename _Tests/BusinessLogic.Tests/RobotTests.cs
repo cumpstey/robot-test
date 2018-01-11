@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace RobotTest.BusinessLogic.Tests
+﻿namespace RobotTest.BusinessLogic.Tests
 {
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Utilities.Logging;
+
     [TestClass]
     public class RobotTests
     {
@@ -12,7 +11,7 @@ namespace RobotTest.BusinessLogic.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void CantCreateRobotWithoutLogger()
         {
-            ILogger<Robot> logger = null;
+            ILogger logger = null;
             var grid = new Grid(1, 1);
 
             var robot = new Robot(logger, grid);
@@ -21,7 +20,7 @@ namespace RobotTest.BusinessLogic.Tests
         [TestMethod]
         public void CanCreateRobotWithLogger()
         {
-            var logger = new NullLogger<Robot>();
+            ILogger logger = new NullLogger();
             var grid = new Grid(1, 1);
 
             Assert.IsInstanceOfType(new Robot(logger, grid), typeof(Robot));

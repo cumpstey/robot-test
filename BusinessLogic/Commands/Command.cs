@@ -1,6 +1,7 @@
-﻿namespace RobotTest.BusinessLogic.Commands
+﻿using Microsoft.Extensions.Logging;
+
+namespace RobotTest.BusinessLogic.Commands
 {
-    using Utilities.Logging;
 
     public abstract class Command
     {
@@ -11,6 +12,6 @@
         /// <param name="grid">Grid</param>
         /// <param name="logger">Logger</param>
         /// <returns>New state</returns>
-        public abstract State? Execute(State? currentState, Grid grid, ILogger logger);
+        public abstract State? Execute(ILogger logger, State? currentState, Grid grid);
     }
 }

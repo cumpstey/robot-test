@@ -1,12 +1,12 @@
-﻿namespace RobotTest.UI.CommandParsing
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using BusinessLogic;
-    using BusinessLogic.Commands;
-    using RobotTest.Utilities.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Logging;
+using RobotTest.BusinessLogic;
+using RobotTest.BusinessLogic.Commands;
 
+namespace RobotTest.UI.CommandParsing
+{
     public class TextCommandParser
     {
         #region Fields
@@ -31,14 +31,9 @@
         /// REPORT
         /// RIGHT
         /// </param>
-        public TextCommandParser(ILogger logger, bool registerDefaultParsers = true)
+        public TextCommandParser(ILogger<TextCommandParser> logger, bool registerDefaultParsers = true)
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException("logger");
-            }
-
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _parsers = new Dictionary<string, IndividualCommandParser>();
 
             if (registerDefaultParsers)
@@ -74,15 +69,10 @@
         {
             if (string.IsNullOrWhiteSpace(commandName))
             {
-                throw new ArgumentException("commandName cannot be empty", "commandName");
+                throw new ArgumentException("commandName cannot be empty", nameof(commandName));
             }
 
-            if (parser == null)
-            {
-                throw new ArgumentNullException("parser");
-            }
-
-            _parsers[commandName] = parser;
+            _parsers[commandName] = parser ?? throw new ArgumentNullException(nameof(parser));
         }
 
         /// <summary>
@@ -94,7 +84,7 @@
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                _logger.Log(LogLevel.Warning, "Cannot parse empty command");
+                _logger.LogWarning("Cannot parse empty command");
                 return null;
             }
 
@@ -107,13 +97,13 @@
                 var command = _parsers[commandName](commandArgumentsString);
                 if (command == null)
                 {
-                    _logger.Log(LogLevel.Warning, "Failed to parse command");
+                    _logger.LogWarning($"Failed to parse command '{commandName}'");
                 }
 
                 return command;
             }
 
-            _logger.Log(LogLevel.Warning, "No parser registered");
+            _logger.LogWarning($"No parser registered for '{commandName}'");
             return null;
         }
 
@@ -121,17 +111,17 @@
 
         #region Default parsers
 
-        private Command ParseLeftCommand(string argumentString)
+        public Command ParseLeftCommand(string argumentString)
         {
             return string.IsNullOrEmpty(argumentString) ? new RotateCommand(RotateDirection.Left) : null;
         }
 
-        private Command ParseMoveCommand(string argumentString)
+        public Command ParseMoveCommand(string argumentString)
         {
             return string.IsNullOrEmpty(argumentString) ? new MoveCommand() : null;
         }
 
-        private Command ParsePlaceCommand(string argumentString)
+        public Command ParsePlaceCommand(string argumentString)
         {
             if (argumentString == null)
             {
@@ -144,11 +134,9 @@
                 return null;
             }
 
-            int x, y;
-            MoveDirection direction;
-            if (int.TryParse(arguments[0], out x)
-                && int.TryParse(arguments[1], out y)
-                && Enum.TryParse<MoveDirection>(arguments[2], true, out direction))
+            if (int.TryParse(arguments[0], out int x)
+                && int.TryParse(arguments[1], out int y)
+                && Enum.TryParse(arguments[2], true, out MoveDirection direction))
             {
                 return new PlaceCommand(x, y, direction);
             }
@@ -156,12 +144,12 @@
             return null;
         }
 
-        private Command ParseReportCommand(string argumentString)
+        public Command ParseReportCommand(string argumentString)
         {
             return string.IsNullOrEmpty(argumentString) ? new ReportCommand() : null;
         }
 
-        private Command ParseRightCommand(string argumentString)
+        public Command ParseRightCommand(string argumentString)
         {
             return string.IsNullOrEmpty(argumentString) ? new RotateCommand(RotateDirection.Right) : null;
         }

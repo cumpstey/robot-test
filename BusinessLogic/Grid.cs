@@ -5,33 +5,33 @@
     /// <summary>
     /// Representation of a two dimensional grid on which a robot can be placed
     /// </summary>
-    public struct Grid
+    public class Grid
     {
-        #region Fields
-
-        public int X;
-
-        public int Y;
-
-        #endregion
-
         #region Constructor
 
         public Grid(int x, int y)
         {
             if (x <= 0)
             {
-                throw new ArgumentException("x must be positive.", "x");
+                throw new ArgumentException("x must be positive.", nameof(x));
             }
 
             if (y <= 0)
             {
-                throw new ArgumentException("y must be positive.", "y");
+                throw new ArgumentException("y must be positive.", nameof(y));
             }
 
             X = x;
             Y = y;
         }
+
+        #endregion
+
+        #region Properties
+
+        public int X { get; private set; }
+
+        public int Y { get; private set; }
 
         #endregion
     }

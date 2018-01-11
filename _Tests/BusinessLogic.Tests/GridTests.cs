@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace RobotTest.BusinessLogic.Tests
+﻿namespace RobotTest.BusinessLogic.Tests
 {
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Utilities.Logging;
+
     [TestClass]
     public class GridTests
     {

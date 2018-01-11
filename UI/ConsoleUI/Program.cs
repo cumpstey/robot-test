@@ -1,15 +1,15 @@
-﻿namespace RobotTest.UI.ConsoleUI
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using BusinessLogic;
-    using CommandLine;
-    using CommandParsing;
-    using Configuration;
-    using Logging;
-    using Utilities.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using RobotTest. BusinessLogic;
+using CommandLine;
+using RobotTest.UI.CommandParsing;
+using RobotTest.UI.ConsoleUI.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
+namespace RobotTest.UI.ConsoleUI
+{
     public class Program
     {
         #region Fields
@@ -28,19 +28,33 @@
         /// <param name="args">Arguments</param>
         private static void Main(string[] args)
         {
-            var options = new Options();
-            if (!Parser.Default.ParseArguments(args, options))
+            var options = default(Options);
+            var optionsParserResult = Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(i => options = i);
+            if (options == null)
             {
-                // Parser will print out help about the failure
                 return;
             }
 
-            var logger = new ConsoleLogger();
-            var grid = new Grid(options.GridX, options.GridY);
-            var robot = new Robot(logger, grid);
-            var commandParser = new TextCommandParser(logger);
+            var services = new ServiceCollection()
+                .AddLogging(config => config.AddConsole())
+                .AddSingleton(new Grid(options.GridX, options.GridY))
+                .AddSingleton<Robot>()
+                .AddSingleton<TextCommandParser>()
+                .BuildServiceProvider();
 
-            Console.WriteLine("Robot created on {0}x{1} grid", grid.X, grid.Y);
+            ////var logger = services.GetRequiredService<ILogger<Program>>();
+
+
+            ////var logger = new Microsoft.Extensions.Logging.Console.ConsoleLogger("robottest", (i, j) => true, true);
+            ////var grid = new Grid(options.GridX, options.GridY);
+            ////var robot = new Robot(logger, grid);
+            ////var commandParser = new TextCommandParser(logger);
+
+            var robot = services.GetRequiredService<Robot>();
+            var commandParser = services.GetRequiredService<TextCommandParser>();
+
+            Console.WriteLine("Robot created on {0}x{1} grid", options.GridX, options.GridY);
             Console.WriteLine("Available commands:");
             Console.WriteLine(ExitCommand);
             foreach (var command in commandParser.GetRegisteredCommands())

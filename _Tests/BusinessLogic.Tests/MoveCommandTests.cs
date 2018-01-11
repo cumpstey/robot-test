@@ -1,10 +1,10 @@
-﻿using RobotTest.BusinessLogic.Commands;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-
-namespace RobotTest.BusinessLogic.Tests
+﻿namespace RobotTest.BusinessLogic.Tests
 {
+    using System;
+    using BusinessLogic.Commands;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Utilities.Logging;
+
     [TestClass]
     public class MoveCommandTests
     {
@@ -34,11 +34,11 @@ namespace RobotTest.BusinessLogic.Tests
 
         private void MovesWhenNotAtEdge(State? state, Coordinate expected)
         {
-            ILogger logger = new NullLogger<object>();
+            ILogger logger = new NullLogger();
             var grid = new Grid(5, 5);
             var command = new MoveCommand();
 
-            state = command.Execute(logger, state, grid);
+            state = command.Execute(state, grid, logger);
             Assert.AreEqual(expected, state.Value.Coordinate);
         }
 
@@ -70,11 +70,11 @@ namespace RobotTest.BusinessLogic.Tests
         {
             var expected = state.Value.Coordinate;
 
-            ILogger logger = new NullLogger<object>();
+            ILogger logger = new NullLogger();
             var grid = new Grid(5, 5);
             var command = new MoveCommand();
 
-            state = command.Execute(logger, state, grid);
+            state = command.Execute(state, grid, logger);
             Assert.AreEqual(expected, state.Value.Coordinate);
         }
     }

@@ -2,12 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>RobotTest.BusinessLogic</AssemblyName>
-    <RootNamespace>RobotTest.BusinessLogic</RootNamespace>
+    <AssemblyName>RobotTest.UI.Common</AssemblyName>
+    <RootNamespace>RobotTest.UI</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BusinessLogic\BusinessLogic.csproj" />
   </ItemGroup>
 
 </Project>
